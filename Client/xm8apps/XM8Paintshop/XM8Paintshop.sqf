@@ -21,6 +21,9 @@
 
 /* Do not edit below unless you know what you are doing.. set prices and configs in the other file! */
 
+private ["_display", "_xm8Controlls", "_fade", "_msg", "_colortxtR", "_colortxtG", "_colortxtB", "_paintMainTitle", "_savedColorsTitle", "_savedColors1", "_savedColors2", "_savedColors3", "_savedColors4", "_colorSavedLeftBorder", "_colorSavedRightBorder", "_colorSavedTopBorder", "_colorSavedBottomBorder", "_presetColorsTitle", "_presetColorsBox", "_index", "_vehicleLayersTitle", "_vehicleLayersBox", "_indexVeh", "_presetPaintTitle", "_previewButtonPreset", "_applyButtonPreset", "_defaultButton", "_customPaintTitle", "_paint2Override", "_saveCustomButton", "_previewButton", "_applyButton", "_colorPreviewTitle", "_colorPreviewBox", "_colorPreviewLeftBorder", "_colorPreviewRightBorder", "_colorPreviewTopBorder", "_colorPreviewBottomBorder", "_sliderRtitle", "_sliderR", "_sliderGtitle", "_sliderG", "_sliderBtitle", "_sliderB" ,"_goBackButton"];
+
+
 disableSerialization;
 _display = uiNameSpace getVariable ["RscExileXM8", displayNull];
 
@@ -320,6 +323,7 @@ _sliderB ctrlSetEventHandler ["SliderPosChanged", "_this call blueSliderOnChange
 _sliderB ctrlCommit 0;
 
 redSliderOnChange = {
+	private ["_sliderpos", "_colorRed"];
 	_sliderpos = (_this select 1);
 	_colorRed = (_sliderpos/10);
 	profileNamespace setVariable ["PaintShopRedColor",_colorRed];
@@ -328,6 +332,7 @@ redSliderOnChange = {
 };
 
 greenSliderOnChange = {
+	private ["_sliderpos", "_colorGreen"];
 	_sliderpos = (_this select 1);
 	_colorGreen = (_sliderpos/10);
 	profileNamespace setVariable ["PaintShopGreenColor",_colorGreen];
@@ -336,6 +341,7 @@ greenSliderOnChange = {
 };
 
 blueSliderOnChange = {
+	private ["_sliderpos", "_colorBlue"];
     _sliderpos = (_this select 1);
 	_colorBlue = (_sliderpos/10);
 	profileNamespace setVariable ["PaintShopBlueColor",_colorBlue];
@@ -344,6 +350,7 @@ blueSliderOnChange = {
 };
 
 LoadPaintPreview = {
+	private ["_display", "_previewBox"];
 	disableSerialization;
 	PaintShopRed = profileNamespace getVariable "PaintShopRedColor";
 	PaintShopGreen = profileNamespace getVariable "PaintShopGreenColor";
@@ -444,7 +451,7 @@ SavePaint = {
 };
 
 EventPaintListBoxChanged = {
-	private["_listBox","_index","_display","_respectButton"];
+	private["_paintPresetListBox","_display"];
 	disableSerialization;
 	_display = uiNameSpace getVariable ["RscExileXM8", displayNull];
 	_paintPresetListBox = _display displayCtrl 5010;
@@ -472,7 +479,7 @@ PaintPreview = {
 		};
 		Case 1:
 		{
-			private["_display","_control","_controlsToShow","_backgroundSplash"];
+			private["_color"];
 			_color = format["#(argb,8,8,3)color(%1,%2,%3,%4)",PaintShopRed, PaintShopGreen, PaintShopBlue,1];
 			CurrentVehicle setObjectTexture [Selectedlayer,_color];
 			SystemChat "[PAINTSHOP] 10 Second Preview.";
@@ -500,6 +507,7 @@ PaintApply = {
 	ApplyType = (_this select 1);
 	
 	if (PaintApplyAllowed) then {
+	private["_newPoptabs"];
 		Switch (ApplyType) Do
 		{
 			Case 0:
@@ -508,6 +516,7 @@ PaintApply = {
 			};
 			Case 1:
 			{
+				private["_color"];
 				_color = format["#(argb,8,8,3)color(%1,%2,%3,%4)",PaintShopRed, PaintShopGreen, PaintShopBlue,1];
 				CurrentVehicle setObjectTextureGlobal [Selectedlayer,_color];
 			};
@@ -521,6 +530,7 @@ PaintApply = {
 };
 
 SetDefaultTexture = {
+	private["_Textures"];
 	_Textures = CurrentVehicle getVariable ["VEHICLE_DEFAULT_TEXTURE",[]];
 	CurrentVehicle setObjectTextureGlobal [Selectedlayer,(_Textures select 0)];
 };
